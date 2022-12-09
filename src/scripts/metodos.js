@@ -1,30 +1,39 @@
 const arrayDeNumeros = [1, 2, 3, 4]
 
-function meuMetodoMap (array){
-    arrayVazioMap = []
-    
+
+arrayVazioMap = []
+
+function meuMetodoMap (array, callback){
     for (let i = 0; i < array.length; i++){
-        let multiplicacao = array[i]*2
-
-        arrayVazioMap.push(multiplicacao)
+        callback(array[i], i, array)
     }
-    return arrayVazioMap
+    console.log(arrayVazioMap)
 }
-console.log(meuMetodoMap(arrayDeNumeros))
+function callbackMap(elemento){
+    let multiplicacao = elemento*2
+
+    arrayVazioMap.push(multiplicacao)
+}
+meuMetodoMap (arrayDeNumeros, callbackMap)
 
 
-function meuMetodoFilter(array){
-    arrayVazioFilter = []
-    
+arrayVazioFilter = []
+
+function meuMetodoFilter(array, callback){
     for (let i = 0; i < array.length; i++){
-        if (array[i] > 2){
-            arrayVazioFilter.push(array[i])
-        }
+        callback(array[i], i, array)
     }
-    return arrayVazioFilter
+    console.log(arrayVazioFilter)
 }
-console.log(meuMetodoFilter(arrayDeNumeros))
+function callbackFilter(elemento){
+    
+    if (elemento > 2){
+        arrayVazioFilter.push(elemento)
+    }
+}
+meuMetodoFilter(arrayDeNumeros, callbackFilter)
 
+objetoVazioFind = {}
 
 function meuMetodoFind(array){
     objetoVazioFind = {}
@@ -39,56 +48,50 @@ function meuMetodoFind(array){
 console.log(meuMetodoFind(arrayDeNumeros))
 
 
-function meuMetodoReduce(array){
-    contadorReduce = 0
+contadorReduce = 0
 
+function meuMetodoReduce(array, callback){
     for (let i = 0; i < array.length; i++){
-        contadorReduce += array[i]
+        acumulador = array[i]
+        valorAtual = i
+        valorInicial = 0
+        
+        callback(acumulador, valorAtual, valorInicial)
     }
-    return contadorReduce
+    console.log(contadorReduce)
 }
-console.log(meuMetodoReduce(arrayDeNumeros))
+function callbackReduce(elemento){
+    contadorReduce += elemento 
+}
+meuMetodoReduce(arrayDeNumeros, callbackReduce)
 
 
 function meuMetodoIncludes(array, numero){
+    variavelIncludes = 0;
+    
     for (let i = 0; i < array.length; i++){
-        if (numero === 1){
-            return true
-        }
-        else if (numero === 2){
-            return true
-        }
-        else if (numero === 3){
-            return true
-        }
-        else if (numero === 4){
-            return true
-        }
-        else{
-            return false
+        if (numero){
+            variavelIncludes += numero
+            if (variavelIncludes <= array.length){
+                return true
+            }
+            else{
+                return false
+            }
         }
     }
 }
 console.log(meuMetodoIncludes(arrayDeNumeros, 1))
 
 
-function meuMetodoIndexOf(numero){
-    for (let i = 0; i < arrayDeNumeros.length; i++){
-        if (numero === 1){
-            return 0
+function meuMetodoIndexOf(array, numero){
+    for (let i = 0; i < array.length; i++){
+        if(numero <= array.length){
+            return numero - 1
         }
-        else if (numero === 2){
-            return 1
-        }
-        else if (numero === 3){
-            return 2
-        }
-        else if (numero === 4){
-            return 3
-        }
-        else {
+        else{
             return -1
         }
-    }
+    } 
 }
-console.log(meuMetodoIndexOf(1))
+console.log(meuMetodoIndexOf(arrayDeNumeros, 3))
