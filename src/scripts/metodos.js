@@ -1,97 +1,120 @@
 const arrayDeNumeros = [1, 2, 3, 4]
 
 
+//Map
 arrayVazioMap = []
 
 function meuMetodoMap (array, callback){
     for (let i = 0; i < array.length; i++){
-        callback(array[i], i, array)
+        const elemento = array[i]
+
+        arrayVazioMap.push(callback(elemento))
     }
-    console.log(arrayVazioMap)
+    return arrayVazioMap
 }
 function callbackMap(elemento){
-    let multiplicacao = elemento*2
-
-    arrayVazioMap.push(multiplicacao)
+    return elemento*2
 }
-meuMetodoMap (arrayDeNumeros, callbackMap)
+console.log(meuMetodoMap(arrayDeNumeros, callbackMap))
 
 
+//Filter
 arrayVazioFilter = []
 
 function meuMetodoFilter(array, callback){
     for (let i = 0; i < array.length; i++){
-        callback(array[i], i, array)
+        const elemento = array[i]
+
+        const elementoFiltrado = callback(elemento)
+
+        if(elementoFiltrado === true){
+            arrayVazioFilter.push(elemento)
+        }
     }
-    console.log(arrayVazioFilter)
+    return arrayVazioFilter
 }
 function callbackFilter(elemento){
-    
-    if (elemento > 2){
-        arrayVazioFilter.push(elemento)
-    }
+    return elemento > 2
 }
-meuMetodoFilter(arrayDeNumeros, callbackFilter)
+console.log(meuMetodoFilter(arrayDeNumeros, callbackFilter))
 
+
+//Find
 objetoVazioFind = {}
 
-function meuMetodoFind(array){
+function meuMetodoFind(array, callback){
     objetoVazioFind = {}
     
     for (let i = 0; i < array.length; i++){
-        if (array[i] > 2){
-            objetoVazioFind = array[i]
+        const elemento = array[i]
+
+        const elementoEncontrado = callback(elemento)
+
+        if (elementoEncontrado === true){
+            objetoVazioFind = elemento
             return objetoVazioFind
         }
     }  
 }
-console.log(meuMetodoFind(arrayDeNumeros))
-
-
-contadorReduce = 0
-
-function meuMetodoReduce(array, callback){
-    for (let i = 0; i < array.length; i++){
-        acumulador = array[i]
-        valorAtual = i
-        valorInicial = 0
-        
-        callback(acumulador, valorAtual, valorInicial)
-    }
-    console.log(contadorReduce)
+function callbackFind (elemento){
+    return elemento > 2
 }
-function callbackReduce(elemento){
-    contadorReduce += elemento 
-}
-meuMetodoReduce(arrayDeNumeros, callbackReduce)
+
+console.log(meuMetodoFind(arrayDeNumeros, callbackFind))
 
 
-function meuMetodoIncludes(array, numero){
-    variavelIncludes = 0;
+//Reduce
+function meuMetodoReduce(array, callback, valorInicial){
+    valorInicial = 0
     
     for (let i = 0; i < array.length; i++){
-        if (numero){
-            variavelIncludes += numero
-            if (variavelIncludes <= array.length){
-                return true
-            }
-            else{
-                return false
+        elemento = array[i]
+        
+        valorInicial = callback(valorInicial, elemento)
+    }
+    return valorInicial
+}
+function callbackReduce(acumulador, valorAtual){
+    return acumulador + valorAtual
+}
+console.log(meuMetodoReduce(arrayDeNumeros, callbackReduce))
+
+
+//Includes
+function meuMetodoIncludes(array, numero){
+    for (let i = 0; i < array.length; i++){
+        elemento = array[i]
+
+        if (elemento === numero){
+            return true
+        }
+    }
+    return false
+}
+console.log(meuMetodoIncludes(arrayDeNumeros, 2))
+
+
+//IndexOf
+function meuMetodoIndexOf(array, numero, pontoInicial = 0){
+    if (pontoInicial >= array.length){
+        return -1
+    }
+    else if (pontoInicial < 0){
+        for (let i = array.length; i < pontoInicial; i++){
+            elemento = array[i]
+
+            if (elemento === numero){
+                return i
             }
         }
     }
-}
-console.log(meuMetodoIncludes(arrayDeNumeros, 1))
+    for (let i = pontoInicial; i < array.length; i++){
+        const elemento = array[i]
 
-
-function meuMetodoIndexOf(array, numero){
-    for (let i = 0; i < array.length; i++){
-        if(numero <= array.length){
-            return numero - 1
+        if (elemento === numero){
+            return i
         }
-        else{
-            return -1
-        }
-    } 
+    }
+    return -1
 }
-console.log(meuMetodoIndexOf(arrayDeNumeros, 3))
+console.log(meuMetodoIndexOf(arrayDeNumeros, 1, 0))
